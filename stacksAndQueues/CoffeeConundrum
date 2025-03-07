@@ -1,0 +1,46 @@
+#include <iostream>
+#include <stack>
+#include <queue>
+#include <vector>
+#include <string>
+using namespace std;
+
+int countStudents(queue<int>& students, stack<int>& drinks) {
+    int d = drinks.size();
+    int consecFail = 0;
+    while (!students.empty()) {
+      if (consecFail == students.size()) {
+        return students.size();
+      }
+      if (students.front() == drinks.top()) {
+        students.pop();
+        drinks.pop();
+        consecFail = 0;
+      }
+      else {
+        students.push(students.front());
+        students.pop();
+        consecFail++;
+      }
+    }
+    return students.size();
+    
+}
+
+//Pascal’s Coffee House offers coffee, tea, or hot chocolate to the students of UF. These items are referred to by the following numbers:
+
+Coffee = 0
+
+Tea = 1
+
+Hot Chocolate = 2
+
+Each student stands in a queue. Each student prefers either coffee, tea, or hot chocolate.
+
+The number of drinks available at Pascal's is equal to the number of students wanting one. The drinks are placed in a stack.
+
+At each step:
+
+If the student at the front of the queue prefers the drink on the top of the stack, they will take it and leave the queue. If not, they will leave the drink and go to the queue’s end. 
+
+This will continue until all students have received a drink or until none of the queue students want the top drink. You will return the number of students who do not receive a drink.

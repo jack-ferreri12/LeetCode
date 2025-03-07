@@ -1,0 +1,28 @@
+float median(Node* head) {
+
+    float median = 0.0;
+    if (head == nullptr) {
+      return median;
+    }
+
+    Node* slow = head;
+    Node* fast = head;
+
+    while (fast != nullptr && fast->next != nullptr) {
+      fast = fast->next->next;
+      if (fast != nullptr) {
+        slow = slow->next;
+      }
+    }
+
+    if (fast == nullptr) {
+      Node* extraSlow = slow->next;
+      median = ((extraSlow->value + slow->value)/2.0);
+    }
+
+    else {
+      return slow->value;
+    }
+
+    return median;
+}

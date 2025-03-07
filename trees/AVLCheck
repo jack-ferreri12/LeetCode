@@ -1,0 +1,28 @@
+//Is the BST an AVL Tree
+
+#include <iostream>
+using namespace std;
+
+int isAVLHelper(Node* root, bool &isBalanced) {
+    if (!root) return 0;  
+
+    int leftHeight = isAVLHelper(root->left, isBalanced);
+    int rightHeight = isAVLHelper(root->right, isBalanced);
+
+    if (!isBalanced) return 0;
+
+    int balanceFactor = leftHeight - rightHeight;
+
+    if (abs(balanceFactor) > 1) {
+        isBalanced = false;
+        return 0;
+    }
+
+    return 1 + max(leftHeight, rightHeight);
+}
+
+bool isAVL(Node* root) {
+    bool isBalanced = true;
+    isAVLHelper(root, isBalanced);
+    return isBalanced;
+}

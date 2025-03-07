@@ -1,0 +1,103 @@
+// Finding Interquartile Range with 4 pointers
+
+#include <iostream>
+#include <iomanip>
+
+class Node {
+    public:
+        int value;
+        Node* next = nullptr;
+};
+
+Node* insertEnd(Node* head, int key)
+{
+    Node* temp = new Node();
+    temp->value = key;
+    if(head == nullptr)
+        head = temp;
+    else
+    {
+        Node* curr = head;
+        while(curr->next != nullptr)
+            curr = curr->next;
+        curr->next = temp;
+    }
+    return head;
+}
+
+float interQuartile(Node* head){
+    
+    int length = 4;
+    Node* p1 = head;
+    Node* p2 = head->next;
+    Node* p3 = head->next->next;
+    Node* p4 = head->next->next->next;
+    
+    if (p4->next == nullptr){
+      return (((float)p3->value + (float)p3->next->value)/2) - (((float)p1->value + (float)p1->next->value)/2);
+    }
+    
+    while (p4 != nullptr && p4->next != nullptr) {
+      p4 = p4->next;
+      p2 = p2->next;
+      p3 = p3->next;
+      length += 1;
+      if (p4->next != nullptr){
+        p4 = p4->next;
+        p3 = p3->next;
+        p2 = p2->next;
+        p1 = p1->next;
+        length += 1;
+       
+        if (p4->next != nullptr){
+          p4 = p4->next;
+          p3 = p3->next; 
+          length += 1;
+       
+          if (p4->next != nullptr){
+            p4 = p4->next;
+            length += 1;
+          }
+        }
+      }  
+    }
+  
+    float q1 = 0;
+    float q2 = 0;
+    float q3 = 0;
+    
+    float val1 = p1->value;
+    float val2 = p3->value;
+    float val3 = p1->next->value;
+    float val4 = p3->next->value;
+
+    
+    if (length % 2 == 0){
+      if (((length / 2) % 2) == 0){
+        q1 = (val1 + val3) / 2;  
+        q3 = (val2 + val4) / 2;
+      }
+      else{
+        q1 = p1->value;
+        q3 = p3->value;
+        
+      }
+    }
+    else {
+      if (((length - 1)/2) % 2 == 0) {
+        q1 = (val1 + val3) / 2;  
+        q3 = (val2 + val4) / 2;
+        
+      }
+      else {
+        q1 = p1->value; 
+        q3 = p3->value;
+      }
+    }
+
+    float diff = q3 - q1;
+
+    return diff;
+  
+    return 0.0;   
+}
